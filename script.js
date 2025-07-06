@@ -4,9 +4,11 @@ const nameInput = document.getElementById("name");
 const positionInput = document.getElementById("position");
 const departmentInput = document.getElementById("department");
 const tableBody = document.getElementById("empTableBody");
+const searchBox = document.getElementById("searchBox"); // new search input
 
 let editingId = null;
 
+// Form submission
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -35,14 +37,18 @@ form.addEventListener("submit", async (e) => {
   loadEmployees();
 });
 
+// Load all employees
 async function loadEmployees() {
-  tableBody.innerHTML = "";
   const res = await fetch(API);
   const employees = await res.json();
+  renderTable(employees);
+}
 
+// Render table rows
+function renderTable(employees) {
+  tableBody.innerHTML = "";
   employees.forEach((emp) => {
     const row = document.createElement("tr");
-
     row.innerHTML = `
       <td>${emp.name}</td>
       <td>${emp.position}</td>
@@ -52,11 +58,11 @@ async function loadEmployees() {
         <button class="delete-btn" onclick="deleteEmployee('${emp.id}')">Delete</button>
       </td>
     `;
-
     tableBody.appendChild(row);
   });
 }
 
+// Delete employee
 async function deleteEmployee(id) {
   if (confirm("Are you sure you want to delete this employee?")) {
     await fetch(`${API}/${id}`, { method: "DELETE" });
@@ -64,6 +70,7 @@ async function deleteEmployee(id) {
   }
 }
 
+// Fill form to edit
 function editEmployee(id, name, position, department) {
   nameInput.value = name;
   positionInput.value = position;
@@ -71,4 +78,19 @@ function editEmployee(id, name, position, department) {
   editingId = id;
 }
 
+// Search employees by name
+if (searchBox) {
+  searchBox.addEventListener("input", async (e) => {
+    const keyword = e.target.value.toLowerCase();
+    const res = await fetch(API);
+    const employees = await res.json();
+    const filtered = employees.filter(emp =>
+      emp.name.toLowerCase().includes(keyword)
+    );
+    renderTable(filtered);
+  });
+}
+
+
 loadEmployees();
+

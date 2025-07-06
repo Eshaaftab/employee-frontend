@@ -1,0 +1,37 @@
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <a href="index.html">Employees</a> |
+    <a href="dashboard.html">Dashboard</a> |
+    <a href="departments.html">Departments</a>
+  </nav>
+
+  <!-- Back Button -->
+  <a href="index.html" class="back-btn">← Back to Home</a>
+
+  <h1>Employee Dashboard</h1>
+
+  <!-- Stats -->
+  <div id="stats">
+    <p>Total Employees: <span id="totalEmp">0</span></p>
+    <p>Total Departments: <span id="totalDept">0</span></p>
+  </div>
+
+  <!-- Buttons -->
+  <div>
+    <button onclick="showEmployeeList()">Show All Employees</button>
+    <button onclick="showDepartmentCounts()">Show Department Counts</button>
+  </div>
+
+  <!-- Dynamic Output -->
+  <div id="output" style="margin-top: 20px;"></div>
+
+  <script src="script-dashboard.js"></script>
+</body>
+
